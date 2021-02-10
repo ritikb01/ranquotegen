@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+        *{ margin: 0; padding : 0; box-sizing: border-box; font-family: 'Bebas Neue', cursive; }
+
+body{
+    background-color: #353839;
+}
+
+.inner{
+    padding-top: 100px;
+}
+.card{
+    background-color: #fffcec;
+border-radius: 10px;
+border-bottom: 5px solid  #808080;
+} 
+.button {
+margin-top: 50px;
+padding: 10px 10px;
+font-size: 15px;
+text-align: center;
+cursor: pointer;
+outline: none;
+color: #353839;
+background-color: #eaf4fc;
+border: none;
+border-radius: 5px;
+}
+
+.button:hover {background-color: #EEEEFF}
+
+.number{
+text-align: right;
+color: #00acee;
+}
+#quotes{
+padding-left: 30px;
+color: #353839;
+font:  bold 35px 'Bebas Neue', cursive;
+text-shadow: -4px 3px 0  #e0eff2
+}
+#author{
+padding-right: 20px;
+text-align: right;
+color: #353839;
+font:  bold  35px 'Bebas Neue', cursive;
+text-shadow: -4px 3px 0  #e0eff2
+}
+.row{
+float: right;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="inner">
+    <div class="card">
+        <h5 class="card-header mx-auto">Random Quote Generator</h5>
+        <div class="card-body">
+          <h4 class="card-title">Thought Of The Day</h4>
+        </p>
+        <div class="text">
+            <i class="fa-2x fa fa-quote-left" aria-hidden="true"></i>
+            <p id="quotes" class="quotes"></p>
+            <div class="row">
+                <div>
+                    <p style="text-align: right;
+                    color: #353839;
+                    font:  bold  35px 'Bebas Neue', cursive;
+                    text-shadow: -4px 3px 0  #e0eff2">-</p>
+                </div>
+                <div>
+            <p id="author" class="author"></p>
+        </div>
+            </div>
+        </div>
+        <label class="button">
+            <p id="Qbtn">Another Quote</p>
+        </label>
+        <p class="number">
+            <i class="fa-2x fa fa-twitter" aria-hidden="true" title="Tweet this Quote" id="tweet"></i>
+        </p>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <script>
+        const quotes = document.getElementById("quotes");
+        const author = document.getElementById("author");
+        const Qbtn = document.getElementById("Qbtn");
+        const tweet = document.getElementById("tweet");
+        let realData = "";
+        let quotesData = "";
+        const tweetQuote =() => {
+            let post = `https://twitter.com/intent/tweet?text=${quotesData.text} ${quotesData.author}`;
+            window.open(post);
+        }
+
+        const getNewQuotes = () => {
+            let num = Math.floor(Math.random()*(1000 +1));
+            quotesData =realData[num];
+            quotes.innerText = `${quotesData.text}`;
+            quotesData.author == null 
+            ? (author.innerText = "Unknown")
+            : (author.innerText = `${quotesData.author}`);
+        };
+
+        const getQuotes = async () => {
+        const api = "https://type.fit/api/quotes";
+        try{
+            let data= await fetch(api);
+            realData = await data.json();
+            getNewQuotes();
+        } catch(error) {}
+        };
+
+        tweet.addEventListener("click", tweetQuote);
+        Qbtn.addEventListener("click",getNewQuotes);
+        getQuotes();
+    </script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
